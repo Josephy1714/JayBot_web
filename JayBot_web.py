@@ -3,8 +3,8 @@ import google.generativeai as genai
 import datetime
 import re
 
-# 🔑 Configure Gemini API
-genai.configure(api_key="AIzaSyDQYGU3j8pR_y50Igdt-mDGjk3fdHDnnTQ")  # Replace with your actual key
+# 🔐 Secure Gemini API key from secrets
+genai.configure(api_key=st.secrets["AIzaSyDQYGU3j8pR_y50Igdt-mDGjk3fdHDnnTQ"])
 model = genai.GenerativeModel(model_name="gemini-1.5-flash")
 chat = model.start_chat(history=[])
 

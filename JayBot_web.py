@@ -5,12 +5,6 @@ import platform
 
 # Only enable voice if running locally (Windows)
 enable_voice = platform.system() == "Windows"
-
-if enable_voice:
-    import pyttsx3
-    engine = pyttsx3.init()
-else:
-    engine = None
 import re
 
 # 🔑 Replace with your actual Gemini API key
@@ -27,10 +21,6 @@ if enable_voice:
 
 # Only enable voice if running locally
 enable_voice = os.getenv("STREAMLIT_SERVER_HEADLESS") != "true"
-
-if enable_voice:
-    import pyttsx3
-    engine = pyttsx3.init()
 else:
     engine = None
 
@@ -45,17 +35,11 @@ def handle_input(user_input):
     if user_input.lower() == "exit":
         farewell = "Goodbye! Keep exploring data! 📊"
         st.session_state.history.append((timestamp(), "Jay", farewell))
-        if engine:
-             engine.say(clean_text(jay_reply))
-             engine.runAndWait()
     else:
         try:
             response = chat.send_message(user_input)
             jay_reply = response.text
             st.session_state.history.append((timestamp(), "Jay", jay_reply))
-            if engine:
-                engine.say(clean_text(jay_reply))
-                engine.runAndWait()
         except Exception as e:
             error_msg = f"⚠️ Error: {e}"
             st.session_state.history.append((timestamp(), "Jay", error_msg))
@@ -76,6 +60,7 @@ if user_input:
 # 💬 Display chat history
 for time, speaker, message in st.session_state.history:
     st.markdown(f"**{time} {speaker}:** {message}")
+
 
 
 

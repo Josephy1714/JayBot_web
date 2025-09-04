@@ -91,22 +91,4 @@ st.markdown("""
         text-align: left;
     }
     </style>
-""", unsafe_allow_html=True)
-
-# 🧠 Initialize session state
-if "history" not in st.session_state:
-    st.session_state.history = []
-if "input_value" not in st.session_state:
-    st.session_state.input_value = ""
-
-# 🧭 Header
-st.markdown("""
-    <div class="jay-header">
-        <img src="https://img.icons8.com/ios-filled/50/ffffff/chat.png"/>
-        JayBot – Your Data Science Tutor
-    </div>
-""", unsafe_allow_html=True)
-
-# 💬 Chat display
-st.markdown('<div class="chat-container">', unsafe_allow_html=True)
-for speaker, message, sent_time, received_time in st.session_state
+""", unsafe

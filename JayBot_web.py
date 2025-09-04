@@ -32,18 +32,18 @@ def handle_input(user_input):
 # 🖼️ Page config
 st.set_page_config(page_title="JayBot – Your Data Science Tutor", layout="wide")
 
-# 🎨 Custom CSS for WhatsApp-style layout
+# 🎨 Custom CSS for Purple WhatsApp-style layout
 st.markdown("""
     <style>
     .chat-container {
-        background-color: #f0f0f0;
+        background-color: #f3e5f5;
         padding: 20px;
         border-radius: 10px;
         max-height: 80vh;
         overflow-y: auto;
     }
     .jay-header {
-        background-color: #075E54;
+        background-color: #6A1B9A;
         color: white;
         padding: 10px 20px;
         font-size: 20px;
@@ -58,26 +58,28 @@ st.markdown("""
         margin-right: 10px;
     }
     .bubble-you {
-        background-color: #DCF8C6;
+        background-color: #CE93D8;
         text-align: right;
         margin-left: auto;
         margin-bottom: 10px;
         padding: 10px;
         border-radius: 10px;
         max-width: 70%;
+        color: black;
     }
     .bubble-jay {
-        background-color: #E6E6E6;
+        background-color: #E1BEE7;
         text-align: left;
         margin-right: auto;
         margin-bottom: 10px;
         padding: 10px;
         border-radius: 10px;
         max-width: 70%;
+        color: black;
     }
     .timestamp {
         font-size: 10px;
-        color: gray;
+        color: #4A148C;
         margin-top: 5px;
         text-align: right;
     }

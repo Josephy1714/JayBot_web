@@ -3,7 +3,7 @@ import google.generativeai as genai
 import datetime
 import re
 
-# ✅ Secure Gemini API key from secrets.toml
+# 🔐 Secure Gemini API key from secrets.toml
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 model = genai.GenerativeModel(model_name="gemini-1.5-flash")
 chat = model.start_chat(history=[])
@@ -26,7 +26,6 @@ def handle_input(user_input):
     except Exception as e:
         error_msg = f"⚠️ Gemini error: {e}"
         st.session_state.history.append(("Jay", error_msg, None, timestamp()))
-    st.session_state.input_value = ""  # Clear input safely
 
 # 🖼️ Page setup
 st.set_page_config(page_title="JayBot – Your Data Science Tutor", layout="wide")
@@ -96,8 +95,6 @@ st.markdown("""
 # 🧠 Initialize session state
 if "history" not in st.session_state:
     st.session_state.history = []
-if "input_value" not in st.session_state:
-    st.session_state.input_value = ""
 
 # 🧭 Header
 st.markdown("""
@@ -123,7 +120,8 @@ for speaker, message, sent_time, received_time in st.session_state.history:
 st.markdown('</div>', unsafe_allow_html=True)
 
 # 📥 Input box
-user_input = st.text_input("Type your message and press Enter:", key="input", value=st.session_state.input_value)
+user_input = st.text_input("Type your message and press Enter:", key="input")
 
 if user_input:
     handle_input(user_input)
+    st.session_state.input = ""  # ✅ Clears the input box safely

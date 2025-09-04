@@ -28,6 +28,7 @@ def handle_input(user_input):
         jay_reply = f"⚠️ Error: {e}"
         print(f"Gemini error: {e}")
     st.session_state.history.append(("Jay", jay_reply, None, timestamp()))
+    st.session_state.input_value = ""  # Clear input safely
 
 # 🖼️ Page config
 st.set_page_config(page_title="JayBot – Your Data Science Tutor", layout="wide")
@@ -86,9 +87,11 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 🧠 Initialize history
+# 🧠 Initialize history and input value
 if "history" not in st.session_state:
     st.session_state.history = []
+if "input_value" not in st.session_state:
+    st.session_state.input_value = ""
 
 # 🧭 Header
 st.markdown("""
@@ -113,8 +116,7 @@ for speaker, message, sent_time, received_time in st.session_state.history:
 st.markdown('</div>', unsafe_allow_html=True)
 
 # 📥 Input box
-user_input = st.text_input("Type your message and press Enter:", key="input")
+user_input = st.text_input("Type your message and press Enter:", key="input", value=st.session_state.input_value)
 
 if user_input:
     handle_input(user_input)
-    st.session_state.input = ""  # Clear the textbox after sending

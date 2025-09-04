@@ -2,6 +2,7 @@ import streamlit as st
 import google.generativeai as genai
 import datetime
 import re
+import pytz
 
 # 🔐 Configure Gemini API securely
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
@@ -11,10 +12,11 @@ chat = model.start_chat(history=[])
 # 🧼 Clean text
 def clean_text(text):
     return re.sub(r'[^\w\s.,!?\'"]+', '', text)
-
-# 🕒 Timestamp
+#timestamp
 def timestamp():
-    return datetime.datetime.now().strftime("%H:%M")
+    local_tz = pytz.timezone("Africa/Nairobi")
+    local_time = datetime.datetime.now(local_tz)
+    return local_time.strftime("%H:%M")
 
 # 💬 Callback to handle input and clear it
 def process_input():
@@ -129,3 +131,4 @@ st.text_input(
     key="input",
     on_change=process_input
 )
+

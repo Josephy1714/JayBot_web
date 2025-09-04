@@ -3,8 +3,8 @@ import google.generativeai as genai
 import datetime
 import re
 
-# 🔑 Configure Gemini API
-genai.configure(api_key="AIzaSyDQYGU3j8pR_y50Igdt-mDGjk3fdHDnnTQ")
+# ✅ Secure Gemini API key from secrets.toml
+genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 model = genai.GenerativeModel(model_name="gemini-1.5-flash")
 chat = model.start_chat(history=[])
 
@@ -26,12 +26,12 @@ def handle_input(user_input):
     except Exception as e:
         error_msg = f"⚠️ Gemini error: {e}"
         st.session_state.history.append(("Jay", error_msg, None, timestamp()))
-    st.session_state.input_value = ""  # Safely clear input
+    st.session_state.input_value = ""  # Clear input safely
 
 # 🖼️ Page setup
 st.set_page_config(page_title="JayBot – Your Data Science Tutor", layout="wide")
 
-# 🎨 Purple WhatsApp-style CSS
+# 🎨 WhatsApp-style purple theme
 st.markdown("""
     <style>
     .chat-container {

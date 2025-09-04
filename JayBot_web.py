@@ -8,7 +8,16 @@ import re
 genai.configure(api_key="AIzaSyDQYGU3j8pR_y50Igdt-mDGjk3fdHDnnTQ")
 model = genai.GenerativeModel(model_name="gemini-2.5-flash")
 chat = model.start_chat(history=[])
-engine = pyttsx3.init()
+import os
+
+# Only enable voice if running locally
+enable_voice = os.getenv("STREAMLIT_SERVER_HEADLESS") != "true"
+
+if enable_voice:
+    import pyttsx3
+    engine = pyttsx3.init()
+else:
+    engine = None
 
 def clean_text(text):
     return re.sub(r'[^\w\s.,!?\'"]+', '', text)
@@ -21,15 +30,17 @@ def handle_input(user_input):
     if user_input.lower() == "exit":
         farewell = "Goodbye! Keep exploring data! 📊"
         st.session_state.history.append((timestamp(), "Jay", farewell))
-        engine.say(clean_text(farewell))
-        engine.runAndWait()
+        if engine:
+    engine.say(clean_text(jay_reply))
+    engine.runAndWait()
     else:
         try:
             response = chat.send_message(user_input)
             jay_reply = response.text
             st.session_state.history.append((timestamp(), "Jay", jay_reply))
-            engine.say(clean_text(jay_reply))
-            engine.runAndWait()
+            if engine:
+    engine.say(clean_text(jay_reply))
+    engine.runAndWait()
         except Exception as e:
             error_msg = f"⚠️ Error: {e}"
             st.session_state.history.append((timestamp(), "Jay", error_msg))
@@ -50,3 +61,4 @@ if user_input:
 # 💬 Display chat history
 for time, speaker, message in st.session_state.history:
     st.markdown(f"**{time} {speaker}:** {message}")
+

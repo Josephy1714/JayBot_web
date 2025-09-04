@@ -23,12 +23,10 @@ def handle_input(user_input):
         response = chat.send_message(user_input)
         reply = clean_text(response.text)
         st.session_state.history.append(("Jay", reply, None, timestamp()))
-        print(f"JayBot reply: {reply}")
     except Exception as e:
         error_msg = f"⚠️ Gemini error: {e}"
         st.session_state.history.append(("Jay", error_msg, None, timestamp()))
-        print(error_msg)
-    st.session_state.input = ""  # Clear input safely
+    st.session_state.input_value = ""  # Safely clear input
 
 # 🖼️ Page setup
 st.set_page_config(page_title="JayBot – Your Data Science Tutor", layout="wide")
@@ -98,8 +96,8 @@ st.markdown("""
 # 🧠 Initialize session state
 if "history" not in st.session_state:
     st.session_state.history = []
-if "input" not in st.session_state:
-    st.session_state.input = ""
+if "input_value" not in st.session_state:
+    st.session_state.input_value = ""
 
 # 🧭 Header
 st.markdown("""
@@ -111,21 +109,4 @@ st.markdown("""
 
 # 💬 Chat display
 st.markdown('<div class="chat-container">', unsafe_allow_html=True)
-for speaker, message, sent_time, received_time in st.session_state.history:
-    bubble_class = "bubble-you" if speaker == "You" else "bubble-jay"
-    timestamp_class = "timestamp-right" if speaker == "You" else "timestamp-left"
-    time_label = f"Sent at {sent_time}" if speaker == "You" else f"Received at {received_time}"
-
-    st.markdown(f"""
-        <div class="{bubble_class}">
-            <strong>{speaker}:</strong><br>{message}
-            <div class="{timestamp_class}">{time_label}</div>
-        </div>
-    """, unsafe_allow_html=True)
-st.markdown('</div>', unsafe_allow_html=True)
-
-# 📥 Input box
-user_input = st.text_input("Type your message and press Enter:", key="input", value=st.session_state.input)
-
-if user_input:
-    handle_input(user_input)
+for speaker, message, sent_time, received_time in st.session_state

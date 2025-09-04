@@ -3,14 +3,12 @@ import google.generativeai as genai
 import datetime
 import re
 
-# 🔑 Insert your Gemini API key here
+# 🔑 Configure Gemini API
 genai.configure(api_key="AIzaSyDQYGU3j8pR_y50Igdt-mDGjk3fdHDnnTQ")
-
-# Initialize Gemini model
 model = genai.GenerativeModel(model_name="gemini-1.5-flash")
 chat = model.start_chat(history=[])
 
-# 🧼 Clean text output
+# 🧼 Clean text
 def clean_text(text):
     return re.sub(r'[^\w\s.,!?\'"]+', '', text)
 
@@ -23,17 +21,19 @@ def handle_input(user_input):
     st.session_state.history.append(("You", user_input, timestamp(), None))
     try:
         response = chat.send_message(user_input)
-        jay_reply = clean_text(response.text)
+        reply = clean_text(response.text)
+        st.session_state.history.append(("Jay", reply, None, timestamp()))
+        print(f"JayBot reply: {reply}")
     except Exception as e:
-        jay_reply = f"⚠️ Error: {e}"
-        print(f"Gemini error: {e}")
-    st.session_state.history.append(("Jay", jay_reply, None, timestamp()))
-    st.session_state.input_value = ""  # Clear input safely
+        error_msg = f"⚠️ Gemini error: {e}"
+        st.session_state.history.append(("Jay", error_msg, None, timestamp()))
+        print(error_msg)
+    st.session_state.input_value = ""  # Safely clear input
 
-# 🖼️ Page config
+# 🖼️ Page setup
 st.set_page_config(page_title="JayBot – Your Data Science Tutor", layout="wide")
 
-# 🎨 Custom CSS for Purple WhatsApp-style layout
+# 🎨 Purple WhatsApp-style CSS
 st.markdown("""
     <style>
     .chat-container {
@@ -87,7 +87,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 🧠 Initialize history and input value
+# 🧠 Initialize session state
 if "history" not in st.session_state:
     st.session_state.history = []
 if "input_value" not in st.session_state:
@@ -101,12 +101,11 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# 💬 Chat container
+# 💬 Chat display
 st.markdown('<div class="chat-container">', unsafe_allow_html=True)
 for speaker, message, sent_time, received_time in st.session_state.history:
     bubble_class = "bubble-you" if speaker == "You" else "bubble-jay"
     time_label = f"Sent at {sent_time}" if speaker == "You" else f"Received at {received_time}"
-
     st.markdown(f"""
         <div class="{bubble_class}">
             <strong>{speaker}:</strong><br>{message}

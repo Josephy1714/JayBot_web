@@ -21,8 +21,6 @@ if enable_voice:
 
 # Only enable voice if running locally
 enable_voice = os.getenv("STREAMLIT_SERVER_HEADLESS") != "true"
-else:
-    engine = None
 
 def clean_text(text):
     return re.sub(r'[^\w\s.,!?\'"]+', '', text)
@@ -35,7 +33,6 @@ def handle_input(user_input):
     if user_input.lower() == "exit":
         farewell = "Goodbye! Keep exploring data! 📊"
         st.session_state.history.append((timestamp(), "Jay", farewell))
-    else:
         try:
             response = chat.send_message(user_input)
             jay_reply = response.text
@@ -60,6 +57,7 @@ if user_input:
 # 💬 Display chat history
 for time, speaker, message in st.session_state.history:
     st.markdown(f"**{time} {speaker}:** {message}")
+
 
 
 

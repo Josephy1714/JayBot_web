@@ -4,7 +4,7 @@ import datetime
 import re
 
 # 🔐 Secure Gemini API key from secrets.toml
-genai.configure(api_key=.devcontainer.secrets.toml["AIzaSyDQYGU3j8pR_y50Igdt-mDGjk3fdHDnnTQ"])
+genai.configure(api_key=st.secrets["AIzaSyDQYGU3j8pR_y50Igdt-mDGjk3fdHDnnTQ"])
 model = genai.GenerativeModel(model_name="gemini-1.5-flash")
 chat = model.start_chat(history=[])
 
@@ -127,6 +127,3 @@ user_input = st.text_input("Type your message and press Enter:", key="input", va
 
 if user_input:
     handle_input(user_input)
-
-
-

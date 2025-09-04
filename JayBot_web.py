@@ -1,7 +1,16 @@
 import streamlit as st
 import google.generativeai as genai
 import datetime
-import pyttsx3
+import platform
+
+# Only enable voice if running locally (Windows)
+enable_voice = platform.system() == "Windows"
+
+if enable_voice:
+    import pyttsx3
+    engine = pyttsx3.init()
+else:
+    engine = None
 import re
 
 # 🔑 Replace with your actual Gemini API key
@@ -67,6 +76,7 @@ if user_input:
 # 💬 Display chat history
 for time, speaker, message in st.session_state.history:
     st.markdown(f"**{time} {speaker}:** {message}")
+
 
 
 

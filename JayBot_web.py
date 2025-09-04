@@ -14,6 +14,12 @@ import os
 enable_voice = os.getenv("STREAMLIT_SERVER_HEADLESS") != "true"
 
 if enable_voice:
+ import os
+
+# Only enable voice if running locally
+enable_voice = os.getenv("STREAMLIT_SERVER_HEADLESS") != "true"
+
+if enable_voice:
     import pyttsx3
     engine = pyttsx3.init()
 else:
@@ -61,5 +67,6 @@ if user_input:
 # 💬 Display chat history
 for time, speaker, message in st.session_state.history:
     st.markdown(f"**{time} {speaker}:** {message}")
+
 
 

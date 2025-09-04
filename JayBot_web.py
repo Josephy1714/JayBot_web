@@ -31,16 +31,16 @@ def handle_input(user_input):
         farewell = "Goodbye! Keep exploring data! 📊"
         st.session_state.history.append((timestamp(), "Jay", farewell))
         if engine:
-    engine.say(clean_text(jay_reply))
-    engine.runAndWait()
+             engine.say(clean_text(jay_reply))
+             engine.runAndWait()
     else:
         try:
             response = chat.send_message(user_input)
             jay_reply = response.text
             st.session_state.history.append((timestamp(), "Jay", jay_reply))
             if engine:
-    engine.say(clean_text(jay_reply))
-    engine.runAndWait()
+                engine.say(clean_text(jay_reply))
+                engine.runAndWait()
         except Exception as e:
             error_msg = f"⚠️ Error: {e}"
             st.session_state.history.append((timestamp(), "Jay", error_msg))
@@ -61,4 +61,5 @@ if user_input:
 # 💬 Display chat history
 for time, speaker, message in st.session_state.history:
     st.markdown(f"**{time} {speaker}:** {message}")
+
 
